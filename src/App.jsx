@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -21,7 +21,7 @@ function InvestmentPage({ onContinue }) {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-white text-black dark:bg-gray-900 dark:text-white">
       <div>
         <Label className="text-lg font-bold">System Investment Details</Label>
       </div>
@@ -137,7 +137,7 @@ function RoiResults({ investment, consumableINR }) {
   const totalOutflow = investment + (11800000 * 4);
 
   return (
-    <div className="p-6 space-y-6 relative">
+    <div className="p-6 space-y-6 relative bg-white text-black dark:bg-gray-900 dark:text-white">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label>Monthly Procedures (Year 1)</Label>
@@ -158,8 +158,8 @@ function RoiResults({ investment, consumableINR }) {
       </div>
 
       <div className="pt-6">
-        <table className="w-full border">
-          <thead className="bg-[#1d3a72] text-white">
+        <table className="w-full border border-gray-300 dark:border-gray-600">
+          <thead className="bg-[#1d3a72] text-white dark:bg-[#2b4a91]">
             <tr>
               <th className="p-2">Year</th>
               <th>Procedures</th>
@@ -171,7 +171,7 @@ function RoiResults({ investment, consumableINR }) {
           </thead>
           <tbody>
             {procedureData.map((row) => (
-              <tr key={row.year} className="text-center border-t">
+              <tr key={row.year} className="text-center border-t border-gray-300 dark:border-gray-600">
                 <td className="p-2 font-semibold">{row.year}</td>
                 <td>{row.procedures}</td>
                 <td>{row.revenue.toLocaleString("en-IN")}</td>
@@ -180,7 +180,7 @@ function RoiResults({ investment, consumableINR }) {
                 <td>{row.profit.toLocaleString("en-IN")}</td>
               </tr>
             ))}
-            <tr className="font-bold border-t bg-gray-100 text-center">
+            <tr className="font-bold border-t bg-gray-100 dark:bg-gray-800 text-center">
               <td className="p-2">TOTAL</td>
               <td>{procedureData.reduce((sum, row) => sum + row.procedures, 0)}</td>
               <td>{totalRevenue.toLocaleString("en-IN")}</td>
@@ -213,8 +213,13 @@ export default function App() {
   const [step, setStep] = useState(1);
   const [investmentData, setInvestmentData] = useState(null);
 
+  useEffect(() => {
+  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.classList.toggle("dark", isDark);
+}, []);
+
   return (
-    <div className="max-w-4xl mx-auto p-6">
+  <div className="max-w-4xl mx-auto p-6 bg-white text-black dark:bg-gray-900 dark:text-white">
       {step === 1 && (
         <InvestmentPage onContinue={(data) => {
           setInvestmentData(data);
